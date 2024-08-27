@@ -19,6 +19,8 @@ public:
 
 	virtual PhysicsServer3D::JointType get_type() const { return PhysicsServer3D::JOINT_TYPE_MAX; }
 
+	bool is_distance_constraint() const { return false; } // TODO(ewall198): Need a better way to check constraint type when Godot doesn't include something similar.
+
 	RID get_rid() const { return rid; }
 
 	void set_rid(const RID& p_rid) { rid = p_rid; }

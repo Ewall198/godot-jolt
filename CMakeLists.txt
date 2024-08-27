@@ -41,7 +41,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL Linux)
 	list(APPEND sources ${info_file})
 endif()
 
-add_library(godot-jolt SHARED ${sources} ${headers})
+add_library(godot-jolt SHARED ${sources} ${headers} "src/joints/jolt_distance_constraint_3d.cpp")
 add_library(godot-jolt::godot-jolt ALIAS godot-jolt)
 
 target_link_libraries(godot-jolt

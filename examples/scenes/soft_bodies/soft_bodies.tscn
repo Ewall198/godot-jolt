@@ -85,10 +85,6 @@ transform = Transform3D(0.707107, -0.298836, 0.640856, 0, 0.906308, 0.422618, -0
 script = ExtResource("1_ikj73")
 
 [node name="DebugGeometry" type="JoltDebugGeometry3D" parent="."]
-draw_shapes = false
-draw_constraints = false
-draw_soft_body_vertices = true
-draw_soft_body_edge_constraints = true
 visible = false
 
 [node name="Floor" type="StaticBody3D" parent="."]

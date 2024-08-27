@@ -2149,6 +2149,21 @@ void JoltPhysicsServer3D::slider_joint_set_jolt_param(
 	return slider_joint->set_jolt_param(p_param, p_value);
 }
 
+void JoltPhysicsServer3D::distance_joint_set_jolt_param(
+	const RID& p_joint,
+	DistanceConstraintParamJolt p_param,
+	double p_value
+) {
+	JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL(joint);
+
+	ERR_FAIL_COND(joint->get_type() != JOINT_TYPE_SLIDER);
+	auto* slider_joint = static_cast<JoltSliderJointImpl3D*>(joint);
+
+	return slider_joint->set_jolt_param(p_param, p_value);
+}
+
+
 bool JoltPhysicsServer3D::slider_joint_get_jolt_flag(const RID& p_joint, SliderJointFlagJolt p_flag)
 	const {
 	const JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);

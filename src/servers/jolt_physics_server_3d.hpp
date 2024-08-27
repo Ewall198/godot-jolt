@@ -63,6 +63,13 @@ public:
 		G6DOF_JOINT_FLAG_ENABLE_ANGULAR_SPRING_FREQUENCY
 	};
 
+	enum DistanceConstraintParamJolt {
+		PARAM_LIMITS_SPRING_FREQUENCY = 100,
+		PARAM_LIMITS_SPRING_DAMPING,
+		PARAM_DISTANCE_MIN,
+		PARAM_DISTANCE_MAX,
+	};
+
 private:
 	static void _bind_methods();
 
@@ -669,6 +676,12 @@ public:
 	void slider_joint_set_jolt_param(
 		const RID& p_joint,
 		SliderJointParamJolt p_param,
+		double p_value
+	);
+
+	void distance_joint_set_jolt_param(
+		const RID& p_joint,
+		DistanceConstraintParamJolt p_param,
 		double p_value
 	);
 
