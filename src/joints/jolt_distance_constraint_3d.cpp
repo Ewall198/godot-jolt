@@ -74,6 +74,21 @@ void JoltDistanceConstraint3D::set_distance_max(double p_value) {
 	_param_changed(PARAM_DISTANCE_MAX);
 }
 
+void JoltDistanceConstraint3D::_configure(PhysicsBody3D* p_body_a, PhysicsBody3D* p_body_b) {
+	PhysicsServer3D* physics_server = _get_physics_server();
+	ERR_FAIL_NULL(physics_server);
+
+	const Vector3 global_position = get_global_position();
+
+	physics_server->joint_make_pin(
+		rid,
+		p_body_a->get_rid(),
+		p_body_a->to_local(global_position),
+		p_body_b != nullptr ? p_body_b->get_rid() : RID(),
+		p_body_b != nullptr ? p_body_b->to_local(global_position) : global_position
+	);
+}
+
 void JoltDistanceConstraint3D::_update_jolt_param(Param p_param) {
 	QUIET_FAIL_COND(_is_invalid());
 

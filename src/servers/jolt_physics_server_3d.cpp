@@ -6,6 +6,7 @@
 #include "joints/jolt_joint_impl_3d.hpp"
 #include "joints/jolt_pin_joint_impl_3d.hpp"
 #include "joints/jolt_slider_joint_impl_3d.hpp"
+#include "joints/jolt_distance_constraint_impl_3d.hpp"
 #include "objects/jolt_area_impl_3d.hpp"
 #include "objects/jolt_body_impl_3d.hpp"
 #include "objects/jolt_soft_body_impl_3d.hpp"
@@ -1818,6 +1819,31 @@ bool JoltPhysicsServer3D::_generic_6dof_joint_get_flag(
 
 	return g6dof_joint->get_flag(p_axis, p_flag);
 }
+
+void JoltPhysicsServer3D::_joint_make_distance_constraint(
+	const RID& p_joint,
+	const RID& p_body_a,
+	const Vector3& p_local_a,
+	const RID& p_body_b,
+	const Vector3& p_local_b
+) {
+	JoltJointImpl3D* old_joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL(old_joint);
+
+	JoltBodyImpl3D* body_a = body_owner.get_or_null(p_body_a);
+	ERR_FAIL_NULL(body_a);
+
+	JoltBodyImpl3D* body_b = body_owner.get_or_null(p_body_b);
+	ERR_FAIL_COND(body_a == body_b);
+
+	JoltJointImpl3D* new_joint = memnew(
+		JoltDistanceConstraintImpl3D(*old_joint, body_a, body_b, p_local_a, p_local_b)
+	);
+
+	memdelete_safely(old_joint);
+	joint_owner.replace(p_joint, new_joint);
+}
+
 
 PhysicsServer3D::JointType JoltPhysicsServer3D::_joint_get_type(const RID& p_joint) const {
 	const JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);

@@ -64,10 +64,10 @@ public:
 	};
 
 	enum DistanceConstraintParamJolt {
-		PARAM_LIMITS_SPRING_FREQUENCY = 100,
-		PARAM_LIMITS_SPRING_DAMPING,
-		PARAM_DISTANCE_MIN,
-		PARAM_DISTANCE_MAX,
+		DISTANCE_CONSTRAINT_LIMITS_SPRING_FREQUENCY = 100,
+		DISTANCE_CONSTRAINT_LIMITS_SPRING_DAMPING,
+		DISTANCE_CONSTRAINT_DISTANCE_MIN,
+		DISTANCE_CONSTRAINT_DISTANCE_MAX
 	};
 
 private:
@@ -581,6 +581,14 @@ public:
 		PhysicsServer3D::G6DOFJointAxisFlag p_flag
 	) const override;
 
+	void _joint_make_distance_constraint(
+		const RID& p_joint,
+		const RID& p_body_a,
+		const Vector3& p_local_a,
+		const RID& p_body_b,
+		const Vector3& p_local_b
+	);
+
 	PhysicsServer3D::JointType _joint_get_type(const RID& p_joint) const override;
 
 	void _joint_set_solver_priority(const RID& p_joint, int32_t p_priority) override;
@@ -774,3 +782,4 @@ VARIANT_ENUM_CAST(JoltPhysicsServer3D::ConeTwistJointParamJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::ConeTwistJointFlagJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::G6DOFJointAxisParamJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::G6DOFJointAxisFlagJolt)
+VARIANT_ENUM_CAST(JoltPhysicsServer3D::DistanceConstraintParamJolt)
