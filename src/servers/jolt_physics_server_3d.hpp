@@ -8,15 +8,11 @@ class JoltShapeImpl3D;
 class JoltSoftBodyImpl3D;
 class JoltSpace3D;
 
+
 class JoltPhysicsServer3D final : public PhysicsServer3DExtension {
 	GDCLASS_QUIET(JoltPhysicsServer3D, PhysicsServer3DExtension)
 
 public:
-	enum JoltOnlyJointType {
-		IN_GODOT_NATIVE,
-		DISTANCE_CONSTRAINT
-	};
-
 	enum HingeJointParamJolt {
 		HINGE_JOINT_LIMIT_SPRING_FREQUENCY = 100,
 		HINGE_JOINT_LIMIT_SPRING_DAMPING,

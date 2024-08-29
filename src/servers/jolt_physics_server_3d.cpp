@@ -26,6 +26,7 @@
 namespace {
 
 constexpr char PHYSICS_SERVER_NAME[] = "JoltPhysicsServer3D";
+using JoltOnlyJointType = JoltJointImpl3D::JoltOnlyJointType;
 
 } // namespace
 

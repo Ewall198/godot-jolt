@@ -5,20 +5,21 @@
 
 class JoltDistanceConstraintImpl3D final : public JoltJointImpl3D {
 	using JoltParameter = JoltPhysicsServer3D::DistanceConstraintParamJolt;
+	using JoltOnlyJointType = JoltJointImpl3D::JoltOnlyJointType;
 
 public:
 	JoltDistanceConstraintImpl3D(
 		const JoltJointImpl3D& p_old_joint,
 		JoltBodyImpl3D* p_body_a,
 		JoltBodyImpl3D* p_body_b,
-		const Transform3D& p_local_ref_a,
-		const Transform3D& p_local_ref_b
+		const Vector3& p_local_a,
+		const Vector3& p_local_b
 	);
 
 	PhysicsServer3D::JointType get_type() const override { return PhysicsServer3D::JOINT_TYPE_MAX; }
 
-	JoltPhysicsServer3D::JoltOnlyJointType get_jolt_only_type() const override {
-		return JoltPhysicsServer3D::JoltOnlyJointType::DISTANCE_CONSTRAINT;
+	JoltOnlyJointType get_jolt_only_type() const override {
+		return JoltOnlyJointType::DISTANCE_CONSTRAINT;
 	}
 
 	double get_jolt_param(JoltParameter p_param) const;

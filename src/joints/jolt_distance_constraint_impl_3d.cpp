@@ -12,13 +12,18 @@ JoltDistanceConstraintImpl3D::JoltDistanceConstraintImpl3D(
 	const JoltJointImpl3D& p_old_joint,
 	JoltBodyImpl3D* p_body_a,
 	JoltBodyImpl3D* p_body_b,
-	const Transform3D& p_local_ref_a,
-	const Transform3D& p_local_ref_b
+	const Vector3& p_local_a,
+	const Vector3& p_local_b
 )
-	: JoltJointImpl3D(p_old_joint, p_body_a, p_body_b, p_local_ref_a, p_local_ref_b) {
+	: JoltJointImpl3D(
+		  p_old_joint,
+		  p_body_a,
+		  p_body_b,
+		  Transform3D({}, p_local_a),
+		  Transform3D({}, p_local_b)
+	  ) {
 	rebuild();
 }
-
 
 double JoltDistanceConstraintImpl3D::get_jolt_param(JoltParameter p_param) const {
 	switch (p_param) {
