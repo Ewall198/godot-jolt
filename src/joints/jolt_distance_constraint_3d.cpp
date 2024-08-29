@@ -3,14 +3,11 @@
 #include "servers/jolt_physics_server_3d.hpp"
 
 namespace {
-
-using ServerParam = PhysicsServer3D::SliderJointParam;
-using ServerParamJolt = JoltPhysicsServer3D::SliderJointParamJolt;
-using ServerFlagJolt = JoltPhysicsServer3D::SliderJointFlagJolt;
-
+using ServerParamJolt = JoltPhysicsServer3D::DistanceConstraintParamJolt;
 } // namespace
 
 void JoltDistanceConstraint3D::_bind_methods() {
+	// TODO(ewall198): Make sure that the physics server is jolt before allowing any interactions.
 	BIND_METHOD(JoltDistanceConstraint3D, get_limit_spring_frequency);
 	BIND_METHOD(JoltDistanceConstraint3D, set_limit_spring_frequency, "value");
 
@@ -75,12 +72,12 @@ void JoltDistanceConstraint3D::set_distance_max(double p_value) {
 }
 
 void JoltDistanceConstraint3D::_configure(PhysicsBody3D* p_body_a, PhysicsBody3D* p_body_b) {
-	PhysicsServer3D* physics_server = _get_physics_server();
+	JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
 	ERR_FAIL_NULL(physics_server);
 
 	const Vector3 global_position = get_global_position();
 
-	physics_server->joint_make_pin(
+	physics_server->joint_make_distance_constraint(
 		rid,
 		p_body_a->get_rid(),
 		p_body_a->to_local(global_position),

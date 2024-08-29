@@ -1820,31 +1820,6 @@ bool JoltPhysicsServer3D::_generic_6dof_joint_get_flag(
 	return g6dof_joint->get_flag(p_axis, p_flag);
 }
 
-void JoltPhysicsServer3D::_joint_make_distance_constraint(
-	const RID& p_joint,
-	const RID& p_body_a,
-	const Vector3& p_local_a,
-	const RID& p_body_b,
-	const Vector3& p_local_b
-) {
-	JoltJointImpl3D* old_joint = joint_owner.get_or_null(p_joint);
-	ERR_FAIL_NULL(old_joint);
-
-	JoltBodyImpl3D* body_a = body_owner.get_or_null(p_body_a);
-	ERR_FAIL_NULL(body_a);
-
-	JoltBodyImpl3D* body_b = body_owner.get_or_null(p_body_b);
-	ERR_FAIL_COND(body_a == body_b);
-
-	JoltJointImpl3D* new_joint = memnew(
-		JoltDistanceConstraintImpl3D(*old_joint, body_a, body_b, p_local_a, p_local_b)
-	);
-
-	memdelete_safely(old_joint);
-	joint_owner.replace(p_joint, new_joint);
-}
-
-
 PhysicsServer3D::JointType JoltPhysicsServer3D::_joint_get_type(const RID& p_joint) const {
 	const JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
 	ERR_FAIL_NULL_D(joint);
@@ -2175,21 +2150,6 @@ void JoltPhysicsServer3D::slider_joint_set_jolt_param(
 	return slider_joint->set_jolt_param(p_param, p_value);
 }
 
-void JoltPhysicsServer3D::distance_joint_set_jolt_param(
-	const RID& p_joint,
-	DistanceConstraintParamJolt p_param,
-	double p_value
-) {
-	JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
-	ERR_FAIL_NULL(joint);
-
-	ERR_FAIL_COND(joint->get_type() != JOINT_TYPE_SLIDER);
-	auto* slider_joint = static_cast<JoltSliderJointImpl3D*>(joint);
-
-	return slider_joint->set_jolt_param(p_param, p_value);
-}
-
-
 bool JoltPhysicsServer3D::slider_joint_get_jolt_flag(const RID& p_joint, SliderJointFlagJolt p_flag)
 	const {
 	const JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
@@ -2386,3 +2346,42 @@ float JoltPhysicsServer3D::generic_6dof_joint_get_applied_torque(const RID& p_jo
 
 	return g6dof_joint->get_applied_torque();
 }
+
+void JoltPhysicsServer3D::joint_make_distance_constraint(
+	const RID& p_joint,
+	const RID& p_body_a,
+	const Vector3& p_local_a,
+	const RID& p_body_b,
+	const Vector3& p_local_b
+) {
+	JoltJointImpl3D* old_joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL(old_joint);
+
+	JoltBodyImpl3D* body_a = body_owner.get_or_null(p_body_a);
+	ERR_FAIL_NULL(body_a);
+
+	JoltBodyImpl3D* body_b = body_owner.get_or_null(p_body_b);
+	ERR_FAIL_COND(body_a == body_b);
+
+	JoltJointImpl3D* new_joint = memnew(
+		JoltDistanceConstraintImpl3D(*old_joint, body_a, body_b, p_local_a, p_local_b)
+	);
+
+	memdelete_safely(old_joint);
+	joint_owner.replace(p_joint, new_joint);
+}
+
+void JoltPhysicsServer3D::distance_constraint_set_jolt_param(
+	const RID& p_joint,
+	DistanceConstraintParamJolt p_param,
+	double p_value
+) {
+	JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL(joint);
+
+	ERR_FAIL_COND(joint->get_jolt_only_type() == JoltOnlyJointType::DISTANCE_CONSTRAINT);
+	auto* distance_constraint = static_cast<JoltDistanceConstraintImpl3D*>(joint);
+
+	return distance_constraint->set_jolt_param(p_param, p_value);
+}
+

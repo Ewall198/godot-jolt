@@ -40,7 +40,7 @@ double JoltDistanceConstraintImpl3D::get_jolt_param(JoltParameter p_param) const
 	}
 }
 
-double JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double p_value) {
+void JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double p_value) {
 	switch (p_param) {
 		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_LIMITS_SPRING_FREQUENCY: {
 			limit_spring_frequency = p_value;
@@ -55,7 +55,7 @@ double JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, doubl
 			distance_max = p_value;
 		} break;
 		default: {
-			ERR_FAIL_D_REPORT(vformat("Unhandled parameter: '%d'.", p_param));
+			ERR_FAIL_REPORT(vformat("Unhandled parameter: '%d'.", p_param));
 		} break;
 	}
 }

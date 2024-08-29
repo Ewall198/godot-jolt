@@ -12,6 +12,11 @@ class JoltPhysicsServer3D final : public PhysicsServer3DExtension {
 	GDCLASS_QUIET(JoltPhysicsServer3D, PhysicsServer3DExtension)
 
 public:
+	enum JoltOnlyJointType {
+		IN_GODOT_NATIVE,
+		DISTANCE_CONSTRAINT
+	};
+
 	enum HingeJointParamJolt {
 		HINGE_JOINT_LIMIT_SPRING_FREQUENCY = 100,
 		HINGE_JOINT_LIMIT_SPRING_DAMPING,
@@ -581,14 +586,6 @@ public:
 		PhysicsServer3D::G6DOFJointAxisFlag p_flag
 	) const override;
 
-	void _joint_make_distance_constraint(
-		const RID& p_joint,
-		const RID& p_body_a,
-		const Vector3& p_local_a,
-		const RID& p_body_b,
-		const Vector3& p_local_b
-	);
-
 	PhysicsServer3D::JointType _joint_get_type(const RID& p_joint) const override;
 
 	void _joint_set_solver_priority(const RID& p_joint, int32_t p_priority) override;
@@ -687,12 +684,6 @@ public:
 		double p_value
 	);
 
-	void distance_joint_set_jolt_param(
-		const RID& p_joint,
-		DistanceConstraintParamJolt p_param,
-		double p_value
-	);
-
 	bool slider_joint_get_jolt_flag(const RID& p_joint, SliderJointFlagJolt p_flag) const;
 
 	void slider_joint_set_jolt_flag(const RID& p_joint, SliderJointFlagJolt p_flag, bool p_enabled);
@@ -751,6 +742,20 @@ public:
 	float generic_6dof_joint_get_applied_force(const RID& p_joint);
 
 	float generic_6dof_joint_get_applied_torque(const RID& p_joint);
+
+	void joint_make_distance_constraint(
+		const RID& p_joint,
+		const RID& p_body_a,
+		const Vector3& p_local_a,
+		const RID& p_body_b,
+		const Vector3& p_local_b
+	);
+
+	void distance_constraint_set_jolt_param(
+		const RID& p_joint,
+		DistanceConstraintParamJolt p_param,
+		double p_value
+	);
 
 private:
 	mutable RID_PtrOwner<JoltSpace3D> space_owner;

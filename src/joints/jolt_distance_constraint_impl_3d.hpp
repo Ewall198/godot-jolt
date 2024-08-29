@@ -17,9 +17,13 @@ public:
 
 	PhysicsServer3D::JointType get_type() const override { return PhysicsServer3D::JOINT_TYPE_MAX; }
 
+	JoltPhysicsServer3D::JoltOnlyJointType get_jolt_only_type() const override {
+		return JoltPhysicsServer3D::JoltOnlyJointType::DISTANCE_CONSTRAINT;
+	}
+
 	double get_jolt_param(JoltParameter p_param) const;
 
-	double set_jolt_param(JoltParameter p_param, double p_value);
+	void set_jolt_param(JoltParameter p_param, double p_value);
 
 	Vector3 get_local_a() const { return local_ref_a.origin; }
 
