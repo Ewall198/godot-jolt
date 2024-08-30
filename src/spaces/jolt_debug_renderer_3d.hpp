@@ -106,6 +106,8 @@ private:
 
 	inline static int32_t ref_count = 0;
 
+	Label3D* text_label = nullptr;
+
 	AABB triangles_aabb;
 
 	AABB lines_aabb;

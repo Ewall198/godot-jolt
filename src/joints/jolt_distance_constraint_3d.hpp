@@ -41,6 +41,10 @@ private:
 
 	void _param_changed(Param p_param);
 
+	Vector3 node_a_anchor = Vector3(0, 0, 0);  // In local space for Node a.
+
+	Vector3 node_b_anchor = Vector3(0, 0, 0);  // In local space for Node b.
+
 	double limit_spring_frequency = 0.0;
 
 	double limit_spring_damping = 0.0;

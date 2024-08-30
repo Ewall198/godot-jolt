@@ -80,10 +80,15 @@ void JoltDistanceConstraint3D::_configure(PhysicsBody3D* p_body_a, PhysicsBody3D
 	physics_server->joint_make_distance_constraint(
 		rid,
 		p_body_a->get_rid(),
-		p_body_a->to_local(global_position),
+		node_a_anchor,
 		p_body_b != nullptr ? p_body_b->get_rid() : RID(),
-		p_body_b != nullptr ? p_body_b->to_local(global_position) : global_position
+		p_body_b != nullptr ? node_b_anchor : global_position
 	);
+
+	_update_jolt_param(PARAM_LIMITS_SPRING_FREQUENCY);
+	_update_jolt_param(PARAM_LIMITS_SPRING_DAMPING);
+	_update_jolt_param(PARAM_DISTANCE_MIN);
+	_update_jolt_param(PARAM_DISTANCE_MAX);
 }
 
 void JoltDistanceConstraint3D::_update_jolt_param(Param p_param) {

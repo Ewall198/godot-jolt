@@ -49,15 +49,19 @@ void JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double 
 	switch (p_param) {
 		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_LIMITS_SPRING_FREQUENCY: {
 			limit_spring_frequency = p_value;
+			_limit_spring_changed();
 		} break;
 		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_LIMITS_SPRING_DAMPING: {
 			limit_spring_damping = p_value;
+			_limit_spring_changed();
 		} break;
 		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_DISTANCE_MIN: {
 			distance_min = p_value;
+			_distance_changed();
 		} break;
 		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_DISTANCE_MAX: {
 			distance_max = p_value;
+			_distance_changed();
 		} break;
 		default: {
 			ERR_FAIL_REPORT(vformat("Unhandled parameter: '%d'.", p_param));
@@ -123,7 +127,16 @@ JPH::Constraint* JoltDistanceConstraintImpl3D::_build_constraint(
 	constraint_settings.mMaxDistance = (float)distance_max;
 	constraint_settings.mLimitsSpringSettings.mFrequency = (float)limit_spring_frequency;
 	constraint_settings.mLimitsSpringSettings.mDamping = (float)limit_spring_damping;
-	return constraint_settings.Create(*p_jolt_body_a, *p_jolt_body_b);
+
+	godot::UtilityFunctions::print("maxDistance:", distance_max);
+
+	if (p_jolt_body_a == nullptr) {
+		return constraint_settings.Create(JPH::Body::sFixedToWorld, *p_jolt_body_b);
+	} else if (p_jolt_body_b == nullptr) {
+		return constraint_settings.Create(*p_jolt_body_a, JPH::Body::sFixedToWorld);
+	} else {
+		return constraint_settings.Create(*p_jolt_body_a, *p_jolt_body_b);
+	}
 }
 
 void JoltDistanceConstraintImpl3D::_points_changed() {
@@ -137,6 +150,11 @@ void JoltDistanceConstraintImpl3D::_limit_spring_changed() {
 }
 
 void JoltDistanceConstraintImpl3D::_limit_distance_changed() {
+	rebuild();
+	_wake_up_bodies();
+}
+
+void JoltDistanceConstraintImpl3D::_distance_changed() {
 	rebuild();
 	_wake_up_bodies();
 }

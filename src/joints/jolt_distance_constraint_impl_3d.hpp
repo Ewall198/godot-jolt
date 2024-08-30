@@ -54,6 +54,8 @@ private:
 
 	void _limit_distance_changed();
 
+	void _distance_changed();
+
 	double limit_spring_frequency = 0.0;
 
 	double limit_spring_damping = 0.0;

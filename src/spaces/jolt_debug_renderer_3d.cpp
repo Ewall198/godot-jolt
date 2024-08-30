@@ -3,6 +3,7 @@
 #ifdef JPH_DEBUG_RENDERER
 
 #include "jolt_space_3d.hpp"
+#include <godot_cpp/variant/utility_functions.hpp>
 
 namespace {
 
@@ -309,7 +310,8 @@ void JoltDebugRenderer3D::DrawText3D(
 	[[maybe_unused]] JPH::Color p_color,
 	[[maybe_unused]] float p_height
 ) {
-	ERR_FAIL_NOT_IMPL();
+	// Maybe try draw_string?
+	//ERR_FAIL_NOT_IMPL();
 }
 
 void JoltDebugRenderer3D::_reserve_triangles(int32_t p_extra_capacity) {
