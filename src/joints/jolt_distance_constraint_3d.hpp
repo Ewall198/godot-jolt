@@ -14,6 +14,11 @@ public:
 		PARAM_DISTANCE_MAX = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_DISTANCE_MAX
 	};
 
+	enum Vec3Param {
+		VEC3_POINT_A = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_A,
+		VEC3_POINT_B = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_B
+	};
+
 private:
 	static void _bind_methods();
 
@@ -34,16 +39,24 @@ public:
 
 	void set_distance_max(double p_value);
 
+	Vector3 get_point_a() const { return point_a; }
+
+	void set_point_a(Vector3 p_point);
+
+	Vector3 get_point_b() const { return point_b; }
+
+	void set_point_b(Vector3 p_point);
+
 private:
 	void _configure(PhysicsBody3D* p_body_a, PhysicsBody3D* p_body_b) override;
 
 	void _update_jolt_param(Param p_param);
 
-	void _param_changed(Param p_param);
+	void _update_jolt_vec3(Vec3Param p_param);
 
-	Vector3 node_a_anchor = Vector3(0, 0, 0);  // In local space for Node a.
+	void _points_changing();
 
-	Vector3 node_b_anchor = Vector3(0, 0, 0);  // In local space for Node b.
+	void _points_changed();
 
 	double limit_spring_frequency = 0.0;
 
@@ -52,4 +65,9 @@ private:
 	double distance_min = 0.0;
 
 	double distance_max = INFINITY;
+
+	Vector3 point_a = Vector3(0, 0, 0);  // In local space for Node a.
+
+	Vector3 point_b = Vector3(0, 0, 0);  // In local space for Node b.
+
 };

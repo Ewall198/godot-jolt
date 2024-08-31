@@ -2386,3 +2386,17 @@ void JoltPhysicsServer3D::distance_constraint_set_jolt_param(
 	return distance_constraint->set_jolt_param(p_param, p_value);
 }
 
+void JoltPhysicsServer3D::distance_constraint_set_jolt_vec3(
+	const RID& p_joint,
+	DistanceConstraintVec3Jolt p_param,
+	double p_value
+) {
+	JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL(joint);
+
+	ERR_FAIL_COND(joint->get_jolt_only_type() != JoltOnlyJointType::DISTANCE_CONSTRAINT);
+	auto* distance_constraint = static_cast<JoltDistanceConstraintImpl3D*>(joint);
+
+	return distance_constraint->set_jolt_param(p_param, p_value);
+}
+

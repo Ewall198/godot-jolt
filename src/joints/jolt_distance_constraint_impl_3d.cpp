@@ -69,14 +69,20 @@ void JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double 
 	}
 }
 
-void JoltDistanceConstraintImpl3D::set_local_a(const Vector3& p_local_a) {
-	local_ref_a = Transform3D({}, p_local_a);
-	_points_changed();
-}
-
-void JoltDistanceConstraintImpl3D::set_local_b(const Vector3& p_local_b) {
-	local_ref_b = Transform3D({}, p_local_b);
-	_points_changed();
+void JoltDistanceConstraintImpl3D::set_jolt_vec3(JoltVec3 p_param, Vector3 p_value) {
+	switch (p_param) {
+		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_A: {
+			local_ref_a = p_value;
+			_limit_spring_changed();
+		} break;
+		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_B: {
+			local_ref_b = p_value;
+			_limit_spring_changed();
+		} break;
+		default: {
+			ERR_FAIL_REPORT(vformat("Unhandled Vector3 parameter: '%d'.", p_param));
+		} break;
+	}
 }
 
 void JoltDistanceConstraintImpl3D::rebuild() {
@@ -128,8 +134,6 @@ JPH::Constraint* JoltDistanceConstraintImpl3D::_build_constraint(
 	constraint_settings.mLimitsSpringSettings.mFrequency = (float)limit_spring_frequency;
 	constraint_settings.mLimitsSpringSettings.mDamping = (float)limit_spring_damping;
 
-	godot::UtilityFunctions::print("maxDistance:", distance_max);
-
 	if (p_jolt_body_a == nullptr) {
 		return constraint_settings.Create(JPH::Body::sFixedToWorld, *p_jolt_body_b);
 	} else if (p_jolt_body_b == nullptr) {
@@ -139,10 +143,10 @@ JPH::Constraint* JoltDistanceConstraintImpl3D::_build_constraint(
 	}
 }
 
-void JoltDistanceConstraintImpl3D::_points_changed() {
-	rebuild();
-	_wake_up_bodies();
-}
+//void JoltDistanceConstraintImpl3D::_points_changed() {
+//	rebuild();
+//	_wake_up_bodies();
+//}
 
 void JoltDistanceConstraintImpl3D::_limit_spring_changed() {
 	rebuild();

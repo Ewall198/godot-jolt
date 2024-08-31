@@ -68,7 +68,12 @@ public:
 		DISTANCE_CONSTRAINT_LIMITS_SPRING_FREQUENCY = 100,
 		DISTANCE_CONSTRAINT_LIMITS_SPRING_DAMPING,
 		DISTANCE_CONSTRAINT_DISTANCE_MIN,
-		DISTANCE_CONSTRAINT_DISTANCE_MAX
+		DISTANCE_CONSTRAINT_DISTANCE_MAX,
+	};
+
+	enum DistanceConstraintVec3Jolt {
+		DISTANCE_CONSTRAINT_POINT_A = 100,
+		DISTANCE_CONSTRAINT_POINT_B
 	};
 
 private:
@@ -753,6 +758,12 @@ public:
 		double p_value
 	);
 
+	void distance_constraint_set_jolt_vec3(
+		const RID& p_joint,
+		DistanceConstraintVec3Jolt p_param,
+		double p_value
+	);
+
 private:
 	mutable RID_PtrOwner<JoltSpace3D> space_owner;
 
@@ -784,3 +795,4 @@ VARIANT_ENUM_CAST(JoltPhysicsServer3D::ConeTwistJointFlagJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::G6DOFJointAxisParamJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::G6DOFJointAxisFlagJolt)
 VARIANT_ENUM_CAST(JoltPhysicsServer3D::DistanceConstraintParamJolt)
+VARIANT_ENUM_CAST(JoltPhysicsServer3D::DistanceConstraintVec3Jolt)

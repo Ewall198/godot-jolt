@@ -4,6 +4,7 @@
 
 namespace {
 using ServerParamJolt = JoltPhysicsServer3D::DistanceConstraintParamJolt;
+using ServerVec3Jolt = JoltPhysicsServer3D::DistanceConstraintVec3Jolt;
 } // namespace
 
 void JoltDistanceConstraint3D::_bind_methods() {
@@ -20,6 +21,12 @@ void JoltDistanceConstraint3D::_bind_methods() {
 	BIND_METHOD(JoltDistanceConstraint3D, get_distance_max);
 	BIND_METHOD(JoltDistanceConstraint3D, set_distance_max, "value");
 
+	BIND_METHOD(JoltDistanceConstraint3D, get_point_a);
+	BIND_METHOD(JoltDistanceConstraint3D, set_point_a, "value");
+
+	BIND_METHOD(JoltDistanceConstraint3D, get_point_b);
+	BIND_METHOD(JoltDistanceConstraint3D, set_point_b, "value");
+
 	ADD_GROUP("Distance", "distance_");
 
 	BIND_PROPERTY("distance_min", Variant::FLOAT, "suffix:m");
@@ -29,6 +36,11 @@ void JoltDistanceConstraint3D::_bind_methods() {
 
 	BIND_PROPERTY("limit_spring_frequency", Variant::FLOAT, "suffix:hz");
 	BIND_PROPERTY("limit_spring_damping", Variant::FLOAT);
+
+	ADD_GROUP("Anchor", "point_");
+
+	BIND_PROPERTY("point_a", Variant::VECTOR3, "m");
+	BIND_PROPERTY("point_b", Variant::VECTOR3, "m");
 }
 
 void JoltDistanceConstraint3D::set_limit_spring_frequency(double p_value) {
@@ -38,7 +50,7 @@ void JoltDistanceConstraint3D::set_limit_spring_frequency(double p_value) {
 
 	limit_spring_frequency = p_value;
 
-	_param_changed(PARAM_LIMITS_SPRING_FREQUENCY);
+	_update_jolt_param(PARAM_LIMITS_SPRING_FREQUENCY);
 }
 
 void JoltDistanceConstraint3D::set_limit_spring_damping(double p_value) {
@@ -48,7 +60,7 @@ void JoltDistanceConstraint3D::set_limit_spring_damping(double p_value) {
 
 	limit_spring_damping = p_value;
 
-	_param_changed(PARAM_LIMITS_SPRING_DAMPING);
+	_update_jolt_param(PARAM_LIMITS_SPRING_DAMPING);
 }
 
 void JoltDistanceConstraint3D::set_distance_min(double p_value) {
@@ -58,7 +70,7 @@ void JoltDistanceConstraint3D::set_distance_min(double p_value) {
 
 	distance_min = p_value;
 
-	_param_changed(PARAM_DISTANCE_MIN);
+	_update_jolt_param(PARAM_DISTANCE_MIN);
 }
 
 void JoltDistanceConstraint3D::set_distance_max(double p_value) {
@@ -68,7 +80,27 @@ void JoltDistanceConstraint3D::set_distance_max(double p_value) {
 
 	distance_max = p_value;
 
-	_param_changed(PARAM_DISTANCE_MAX);
+	_update_jolt_param(PARAM_DISTANCE_MAX);
+}
+
+void JoltDistanceConstraint3D::set_point_a(Vector3 p_point) {
+	if (point_a == p_point) {
+		return;
+	}
+
+	_points_changing();
+	point_a = p_point;
+	_points_changed();
+}
+
+void JoltDistanceConstraint3D::set_point_b(Vector3 p_point) {
+	if (point_b == p_point) {
+		return;
+	}
+
+	_points_changing();
+	point_b = p_point;
+	_points_changed();
 }
 
 void JoltDistanceConstraint3D::_configure(PhysicsBody3D* p_body_a, PhysicsBody3D* p_body_b) {
@@ -80,9 +112,9 @@ void JoltDistanceConstraint3D::_configure(PhysicsBody3D* p_body_a, PhysicsBody3D
 	physics_server->joint_make_distance_constraint(
 		rid,
 		p_body_a->get_rid(),
-		node_a_anchor,
+		point_a,
 		p_body_b != nullptr ? p_body_b->get_rid() : RID(),
-		p_body_b != nullptr ? node_b_anchor : global_position
+		p_body_b != nullptr ? point_b : global_position
 	);
 
 	_update_jolt_param(PARAM_LIMITS_SPRING_FREQUENCY);
@@ -120,7 +152,33 @@ void JoltDistanceConstraint3D::_update_jolt_param(Param p_param) {
 	physics_server->distance_constraint_set_jolt_param(rid, ServerParamJolt(p_param), *value);
 }
 
-void JoltDistanceConstraint3D::_param_changed(Param p_param) {
-	// ewall198: This always calls _update_jolt_param since Godot hasn't implemented Distance Constraints. Keeping this function for style consistency.
-	_update_jolt_param(p_param);
+void JoltDistanceConstraint3D::_update_jolt_vec3(Vec3Param p_param) {
+	QUIET_FAIL_COND(_is_invalid());
+
+	JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
+	QUIET_FAIL_NULL(physics_server);
+
+	Vector3* value = nullptr;
+
+	switch (p_param) {
+		case VEC3_POINT_A: {
+			value = &point_a;
+		} break;
+		case VEC3_POINT_B: {
+			value = &point_b;
+		} break;
+		default: {
+			ERR_FAIL_REPORT(vformat("Unhandled Vector3 parameter: `%d`.", p_param));
+		} break;
+	}
+
+	physics_server->distance_constraint_set_jolt_vec3(rid, ServerVec3Jolt(p_param), *value);
+}
+
+void JoltDistanceConstraint3D::_points_changing() {
+	_destroy();
+}
+
+void JoltDistanceConstraint3D::_points_changed() {
+	_build();
 }
