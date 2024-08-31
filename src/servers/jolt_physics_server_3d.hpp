@@ -71,11 +71,6 @@ public:
 		DISTANCE_CONSTRAINT_DISTANCE_MAX,
 	};
 
-	enum DistanceConstraintVec3Jolt {
-		DISTANCE_CONSTRAINT_POINT_A = 100,
-		DISTANCE_CONSTRAINT_POINT_B
-	};
-
 private:
 	static void _bind_methods();
 

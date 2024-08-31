@@ -14,11 +14,6 @@ public:
 		PARAM_DISTANCE_MAX = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_DISTANCE_MAX
 	};
 
-	enum Vec3Param {
-		VEC3_POINT_A = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_A,
-		VEC3_POINT_B = JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_B
-	};
-
 private:
 	static void _bind_methods();
 

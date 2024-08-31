@@ -5,7 +5,6 @@
 
 class JoltDistanceConstraintImpl3D final : public JoltJointImpl3D {
 	using JoltParameter = JoltPhysicsServer3D::DistanceConstraintParamJolt;
-	using JoltVec3 = JoltPhysicsServer3D::DistanceConstraintVec3Jolt;
 	using JoltOnlyJointType = JoltJointImpl3D::JoltOnlyJointType;
 
 public:
