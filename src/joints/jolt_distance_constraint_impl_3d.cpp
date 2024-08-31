@@ -69,22 +69,6 @@ void JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double 
 	}
 }
 
-void JoltDistanceConstraintImpl3D::set_jolt_vec3(JoltVec3 p_param, Vector3 p_value) {
-	switch (p_param) {
-		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_A: {
-			local_ref_a = p_value;
-			_limit_spring_changed();
-		} break;
-		case JoltPhysicsServer3D::DISTANCE_CONSTRAINT_POINT_B: {
-			local_ref_b = p_value;
-			_limit_spring_changed();
-		} break;
-		default: {
-			ERR_FAIL_REPORT(vformat("Unhandled Vector3 parameter: '%d'.", p_param));
-		} break;
-	}
-}
-
 void JoltDistanceConstraintImpl3D::rebuild() {
 	destroy();
 

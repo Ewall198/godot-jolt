@@ -27,21 +27,9 @@ public:
 
 	void set_jolt_param(JoltParameter p_param, double p_value);
 
-	//void get_jolt_vec3(JoltParameter p_param, double p_value);
-
-	void set_jolt_vec3(JoltVec3 p_param, Vector3 p_value);
-
 	Vector3 get_local_a() const { return local_ref_a.origin; }
 
-	//void set_local_a(const Vector3& p_local_a);
-
 	Vector3 get_local_b() const { return local_ref_b.origin; }
-
-	//void set_local_b(const Vector3& p_local_b);
-
-	//float get_applied_force() const;
-
-	//float get_applied_torque() const;
 
 	void rebuild() override;
 
@@ -52,8 +40,6 @@ private:
 		const Transform3D& p_shifted_ref_a,
 		const Transform3D& p_shifted_ref_b
 	);
-
-	//void _points_changed();
 
 	void _limit_spring_changed();
 

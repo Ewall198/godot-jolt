@@ -152,29 +152,6 @@ void JoltDistanceConstraint3D::_update_jolt_param(Param p_param) {
 	physics_server->distance_constraint_set_jolt_param(rid, ServerParamJolt(p_param), *value);
 }
 
-void JoltDistanceConstraint3D::_update_jolt_vec3(Vec3Param p_param) {
-	QUIET_FAIL_COND(_is_invalid());
-
-	JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
-	QUIET_FAIL_NULL(physics_server);
-
-	Vector3* value = nullptr;
-
-	switch (p_param) {
-		case VEC3_POINT_A: {
-			value = &point_a;
-		} break;
-		case VEC3_POINT_B: {
-			value = &point_b;
-		} break;
-		default: {
-			ERR_FAIL_REPORT(vformat("Unhandled Vector3 parameter: `%d`.", p_param));
-		} break;
-	}
-
-	physics_server->distance_constraint_set_jolt_vec3(rid, ServerVec3Jolt(p_param), *value);
-}
-
 void JoltDistanceConstraint3D::_points_changing() {
 	_destroy();
 }

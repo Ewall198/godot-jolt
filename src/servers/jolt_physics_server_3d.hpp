@@ -758,12 +758,6 @@ public:
 		double p_value
 	);
 
-	void distance_constraint_set_jolt_vec3(
-		const RID& p_joint,
-		DistanceConstraintVec3Jolt p_param,
-		double p_value
-	);
-
 private:
 	mutable RID_PtrOwner<JoltSpace3D> space_owner;
 
