@@ -4,7 +4,6 @@
 
 namespace {
 using ServerParamJolt = JoltPhysicsServer3D::DistanceConstraintParamJolt;
-using ServerVec3Jolt = JoltPhysicsServer3D::DistanceConstraintVec3Jolt;
 } // namespace
 
 void JoltDistanceConstraint3D::_bind_methods() {

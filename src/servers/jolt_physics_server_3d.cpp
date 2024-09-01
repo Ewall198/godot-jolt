@@ -1,12 +1,12 @@
 #include "jolt_physics_server_3d.hpp"
 
 #include "joints/jolt_cone_twist_joint_impl_3d.hpp"
+#include "joints/jolt_distance_constraint_impl_3d.hpp"
 #include "joints/jolt_generic_6dof_joint_impl_3d.hpp"
 #include "joints/jolt_hinge_joint_impl_3d.hpp"
 #include "joints/jolt_joint_impl_3d.hpp"
 #include "joints/jolt_pin_joint_impl_3d.hpp"
 #include "joints/jolt_slider_joint_impl_3d.hpp"
-#include "joints/jolt_distance_constraint_impl_3d.hpp"
 #include "objects/jolt_area_impl_3d.hpp"
 #include "objects/jolt_body_impl_3d.hpp"
 #include "objects/jolt_soft_body_impl_3d.hpp"

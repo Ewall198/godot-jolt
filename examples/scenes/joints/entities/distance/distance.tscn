@@ -30,7 +30,7 @@ mesh = SubResource("BoxMesh_q4hwq")
 skeleton = NodePath("../CollisionShape3D")
 
 [node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.89173, 3.32687, 0)
+transform = Transform3D(0.412834, -0.910806, 0, 0.910806, 0.412834, 0, 0, 0, 1, -2.89173, 3.32687, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
 shape = SubResource("BoxShape3D_dluhb")
@@ -64,9 +64,17 @@ shadow_enabled = true
 [node name="JoltDebugGeometry3D" type="JoltDebugGeometry3D" parent="."]
 
 [node name="JoltDistanceConstraint3D" type="JoltDistanceConstraint3D" parent="."]
-distance_max = 1.0
+distance_max = 15.0
 point_a = Vector3(0.5, 0.5, 0.5)
 point_b = Vector3(-0.5, -0.5, -0.5)
 node_a = NodePath("../RigidBody3D")
 node_b = NodePath("../RigidBody3D2")
 exclude_nodes_from_collision = false
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8989, 0)
+
+[node name="JoltDistanceConstraint3D2" type="JoltDistanceConstraint3D" parent="."]
+distance_max = 5.0
+node_a = NodePath("../RigidBody3D")
+
+[node name="JoltPinJoint3D" type="JoltPinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51252, 4.89536, 0)

@@ -47,8 +47,6 @@ private:
 
 	void _update_jolt_param(Param p_param);
 
-	void _update_jolt_vec3(Vec3Param p_param);
-
 	void _points_changing();
 
 	void _points_changed();
