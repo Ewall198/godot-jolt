@@ -58,10 +58,12 @@ environment = ExtResource("1_dtyjk")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.825549, -0.544985, 0.146493, 0, 0.259587, 0.96572, -0.56433, 0.797249, -0.214302, 0, 0, 0)
+visible = false
 light_bake_mode = 0
 shadow_enabled = true
 
 [node name="JoltDebugGeometry3D" type="JoltDebugGeometry3D" parent="."]
+visible = false
 
 [node name="JoltDistanceConstraint3D" type="JoltDistanceConstraint3D" parent="."]
 distance_max = 15.0
@@ -70,11 +72,3 @@ point_b = Vector3(-0.5, -0.5, -0.5)
 node_a = NodePath("../RigidBody3D")
 node_b = NodePath("../RigidBody3D2")
 exclude_nodes_from_collision = false
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8989, 0)
-
-[node name="JoltDistanceConstraint3D2" type="JoltDistanceConstraint3D" parent="."]
-distance_max = 5.0
-node_a = NodePath("../RigidBody3D")
-
-[node name="JoltPinJoint3D" type="JoltPinJoint3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.51252, 4.89536, 0)

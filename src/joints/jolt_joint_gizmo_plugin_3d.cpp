@@ -104,6 +104,15 @@ void draw_angular_limits(
 	p_points.push_back(start);
 }
 
+void draw_small_cross(Vector3 center, PackedVector3Array& p_points) {
+	p_points.push_back(center + Vector3(GIZMO_RADIUS, 0, 0));
+	p_points.push_back(center - Vector3(GIZMO_RADIUS, 0, 0));
+	p_points.push_back(center + Vector3(0, GIZMO_RADIUS, 0));
+	p_points.push_back(center - Vector3(0, GIZMO_RADIUS, 0));
+	p_points.push_back(center + Vector3(0, 0, GIZMO_RADIUS));
+	p_points.push_back(center - Vector3(0, 0, GIZMO_RADIUS));
+}
+
 void draw_pin_joint([[maybe_unused]] const JoltPinJoint3D& p_joint, PackedVector3Array& p_points) {
 	draw_angular_limits(Vector3::AXIS_X, false, Mathf_PI, -Mathf_PI, p_points);
 	draw_angular_limits(Vector3::AXIS_Y, false, Mathf_PI, -Mathf_PI, p_points);
@@ -256,11 +265,14 @@ void draw_distance_constraint(
 	const JoltDistanceConstraint3D& p_joint,
 	PackedVector3Array& p_points
 ) {
-	godot::UtilityFunctions::print("Drawing distance constraint joint", p_points[0]);
-	// Vector3 point_a = p_joint.get_point_a();
-	draw_angular_limits(Vector3::AXIS_X, false, Mathf_PI, -Mathf_PI, p_points);
-	draw_angular_limits(Vector3::AXIS_Y, false, Mathf_PI, -Mathf_PI, p_points);
-	draw_angular_limits(Vector3::AXIS_Z, false, Mathf_PI, -Mathf_PI, p_points);
+	PhysicsBody3D* body_a = p_joint.get_body_a();
+	Vector3 global_point_a = body_a->to_global(p_joint.get_point_a());
+	PhysicsBody3D* body_b = p_joint.get_body_b();
+	Vector3 global_point_b = body_b->to_global(p_joint.get_point_b());
+	draw_small_cross(global_point_a, p_points);
+	draw_small_cross(global_point_b, p_points);
+	p_points.push_back(global_point_a);
+	p_points.push_back(global_point_b);
 }
 
 } // namespace
