@@ -3,6 +3,7 @@
 #ifdef JPH_DEBUG_RENDERER
 
 #include "jolt_space_3d.hpp"
+#include "sixteen_segment_display.hpp"
 
 namespace {
 
@@ -309,7 +310,12 @@ void JoltDebugRenderer3D::DrawText3D(
 	[[maybe_unused]] JPH::Color p_color,
 	[[maybe_unused]] float p_height
 ) {
-	// ERR_FAIL_NOT_IMPL();
+	const uint32_t p_color_abgr = to_godot(p_color).to_abgr32();
+	PackedVector3Array points;
+	SixteenSegmentDisplay3D::get_lines_from_string(p_string, points);
+	for (int i = 0; i < points.size(); i += 2) {
+		_add_line(points[i], points[i + 1], p_color_abgr);
+	}
 }
 
 void JoltDebugRenderer3D::_reserve_triangles(int32_t p_extra_capacity) {
