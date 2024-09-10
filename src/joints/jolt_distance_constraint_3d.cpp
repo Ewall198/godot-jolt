@@ -107,6 +107,9 @@ void JoltDistanceConstraint3D::set_point_b(Vector3 p_point) {
 
 Vector3 JoltDistanceConstraint3D::get_global_point_a() const {
 	PhysicsBody3D* body_a = get_body_a();
+	if (_is_invalid()) {
+		return get_global_position();
+	}
 	if (body_a == nullptr) {
 		JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
 		return physics_server->distance_constraint_get_local_a(rid);
@@ -116,6 +119,9 @@ Vector3 JoltDistanceConstraint3D::get_global_point_a() const {
 
 Vector3 JoltDistanceConstraint3D::get_global_point_b() const {
 	PhysicsBody3D* body_b = get_body_b();
+	if (_is_invalid()) {
+		return get_global_position();
+	}
 	if (body_b == nullptr) {
 		JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
 		return physics_server->distance_constraint_get_local_b(rid);
