@@ -756,6 +756,8 @@ public:
 
 	Vector3 distance_constraint_get_local_b(const RID& p_joint) const;
 
+	float distance_constraint_get_applied_force(const RID& p_joint);
+
 private:
 	mutable RID_PtrOwner<JoltSpace3D> space_owner;
 

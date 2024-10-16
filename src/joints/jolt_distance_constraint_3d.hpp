@@ -48,6 +48,8 @@ public:
 
 	void set_point_b(Vector3 p_point);
 
+	float get_applied_force() const;
+
 private:
 	void _configure(PhysicsBody3D* p_body_a, PhysicsBody3D* p_body_b) override;
 

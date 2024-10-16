@@ -64,6 +64,19 @@ void JoltDistanceConstraintImpl3D::set_jolt_param(JoltParameter p_param, double 
 	}
 }
 
+float JoltDistanceConstraintImpl3D::get_applied_force() const {
+	auto* constraint = static_cast<JPH::DistanceConstraint*>(jolt_ref.GetPtr());
+	ERR_FAIL_NULL_D(constraint);
+
+	JoltSpace3D* space = get_space();
+	ERR_FAIL_NULL_D(space);
+
+	const float last_step = space->get_last_step();
+	QUIET_FAIL_COND_D(last_step == 0.0f);
+
+	return constraint->GetTotalLambdaPosition() / last_step;
+}
+
 void JoltDistanceConstraintImpl3D::rebuild() {
 	destroy();
 

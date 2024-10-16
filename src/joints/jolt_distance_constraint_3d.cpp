@@ -29,6 +29,8 @@ void JoltDistanceConstraint3D::_bind_methods() {
 
 	BIND_METHOD(JoltDistanceConstraint3D, get_global_point_b);
 
+	BIND_METHOD(JoltDistanceConstraint3D, get_applied_force);
+
 	ADD_GROUP("Distance", "distance_");
 
 	BIND_PROPERTY("distance_min", Variant::FLOAT, "suffix:m");
@@ -103,6 +105,11 @@ void JoltDistanceConstraint3D::set_point_b(Vector3 p_point) {
 	_points_changing();
 	point_b = p_point;
 	_points_changed();
+}
+
+float JoltDistanceConstraint3D::get_applied_force() const {
+	JoltPhysicsServer3D* physics_server = _get_jolt_physics_server();
+	return physics_server->distance_constraint_get_applied_force(rid);
 }
 
 Vector3 JoltDistanceConstraint3D::get_global_point_a() const {

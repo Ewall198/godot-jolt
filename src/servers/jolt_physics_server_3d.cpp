@@ -2407,3 +2407,13 @@ Vector3 JoltPhysicsServer3D::distance_constraint_get_local_b(const RID& p_joint)
 	auto* joint_impl = dynamic_cast<JoltDistanceConstraintImpl3D*>(joint);
 	return joint_impl->get_local_b();
 }
+
+float JoltPhysicsServer3D::distance_constraint_get_applied_force(const RID& p_joint) {
+	JoltJointImpl3D* joint = joint_owner.get_or_null(p_joint);
+	ERR_FAIL_NULL_D(joint);
+
+	ERR_FAIL_COND_D(joint->get_jolt_only_type() != JoltOnlyJointType::DISTANCE_CONSTRAINT);
+	auto* distance_constraint = static_cast<JoltHingeJointImpl3D*>(joint);
+
+	return distance_constraint->get_applied_force();
+}
