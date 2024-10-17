@@ -2413,7 +2413,7 @@ float JoltPhysicsServer3D::distance_constraint_get_applied_force(const RID& p_jo
 	ERR_FAIL_NULL_D(joint);
 
 	ERR_FAIL_COND_D(joint->get_jolt_only_type() != JoltOnlyJointType::DISTANCE_CONSTRAINT);
-	auto* distance_constraint = static_cast<JoltHingeJointImpl3D*>(joint);
+	auto* distance_constraint = static_cast<JoltDistanceConstraintImpl3D*>(joint);
 
 	return distance_constraint->get_applied_force();
 }
