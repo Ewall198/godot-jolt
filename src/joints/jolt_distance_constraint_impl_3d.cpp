@@ -140,12 +140,7 @@ void JoltDistanceConstraintImpl3D::_limit_spring_changed() {
 	_wake_up_bodies();
 }
 
-void JoltDistanceConstraintImpl3D::_limit_distance_changed() {
-	rebuild();
-	_wake_up_bodies();
-}
-
 void JoltDistanceConstraintImpl3D::_distance_changed() {
-	rebuild();
-	_wake_up_bodies();
+	auto* constraint = static_cast<JPH::DistanceConstraint*>(jolt_ref.GetPtr());
+	constraint->SetDistance((float)distance_min, (float)distance_max);
 }

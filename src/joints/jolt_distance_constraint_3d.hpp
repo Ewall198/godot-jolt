@@ -65,7 +65,7 @@ private:
 
 	double distance_min = 0.0;
 
-	double distance_max = INFINITY;
+	double distance_max = -1.0;
 
 	Vector3 point_a = Vector3(0, 0, 0); // In local space for Node a.
 
